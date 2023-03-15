@@ -1,6 +1,7 @@
-package com.moseoh.kpa.dialog.model;
+package com.moseoh.kpa.dialog.domain.model;
 
 import com.intellij.openapi.util.text.StringUtil;
+import com.moseoh.kpa.utils.Utils;
 import lombok.Builder;
 
 @Builder
@@ -30,28 +31,10 @@ public class DomainForm {
     }
 
     public String getBasePackage() {
-        return pathToPackage(getDomainPath());
+        return Utils.getInstance().pathToPackage(getDomainPath(),true);
     }
 
     public String getPackage(String filePath) {
-        return pathToPackage(getFilePath(filePath));
-    }
-
-    private String pathToPackage(String path) {
-        String[] arr = path.split("/");
-        int index = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].equals("src")) {
-                index = i;
-                break;
-            }
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = index + 3; i < arr.length; i++) {
-            sb.append(arr[i]);
-            if (i != arr.length - 1) sb.append(".");
-        }
-        return sb.toString();
+        return Utils.getInstance().pathToPackage(getFilePath(filePath),true);
     }
 }

@@ -1,4 +1,4 @@
-package com.moseoh.kpa.dialog.model;
+package com.moseoh.kpa.dialog.domain.model;
 
 public enum Language {
     JAVA(".java"),

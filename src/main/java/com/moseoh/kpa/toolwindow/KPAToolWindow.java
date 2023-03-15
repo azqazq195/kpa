@@ -2,7 +2,7 @@ package com.moseoh.kpa.toolwindow;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
-import com.moseoh.kpa.dialog.CreateDomainDialog;
+import com.moseoh.kpa.dialog.domain.CreateDomainDialog;
 
 import javax.swing.*;
 

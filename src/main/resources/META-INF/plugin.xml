@@ -29,4 +29,10 @@
         <toolWindow id="KPA" secondary="true" icon="AllIcons.Actions.ChangeView" anchor="right"
                     factoryClass="com.moseoh.kpa.toolwindow.KPAToolWindowFactory"/>
     </extensions>
+    <actions>
+        <action id="Create Programmers" class="com.moseoh.kpa.CreateProgrammers" text="Create Programmers">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift meta P"/>
+        </action>
+    </actions>
 </idea-plugin>

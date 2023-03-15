@@ -16,5 +16,6 @@ public class Store {
     }
 
     private String domainPath;
+    private String programmersPackagePath;
 
 }

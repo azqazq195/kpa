@@ -1,4 +1,4 @@
-package com.moseoh.kpa.dialog;
+package com.moseoh.kpa.dialog.domain;
 
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
@@ -9,9 +9,9 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.uiDesigner.core.Spacer;
-import com.moseoh.kpa.dialog.model.DomainForm;
-import com.moseoh.kpa.dialog.model.Language;
-import com.moseoh.kpa.dialog.service.DomainService;
+import com.moseoh.kpa.dialog.domain.model.DomainForm;
+import com.moseoh.kpa.dialog.domain.model.Language;
+import com.moseoh.kpa.dialog.domain.service.DomainService;
 import com.moseoh.kpa.utils.Store;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,6 +39,26 @@ public class CreateDomainDialog extends DialogWrapper {
         setTitle("Create Domain");
         setSize(500, -1);
         init();
+    }
+
+
+    @Override
+    protected void doOKAction() {
+        if (!isValidated()) return;
+
+        String path = domainPathField.getText();
+        store.setDomainPath(path);
+
+        DomainForm domainForm = DomainForm.builder()
+                .domain(domainField.getText())
+                .domainPath(path)
+                .language(Language.KOTLIN)
+                .build();
+
+        DomainService domainService = new DomainService();
+        domainService.create(domainForm);
+
+        super.doOKAction();
     }
 
     @Override
@@ -137,23 +157,5 @@ public class CreateDomainDialog extends DialogWrapper {
         return true;
     }
 
-    @Override
-    protected void doOKAction() {
-        if (!isValidated()) return;
-
-        String path = domainPathField.getText();
-        store.setDomainPath(path);
-
-        DomainForm domainForm = DomainForm.builder()
-                .domain(domainField.getText())
-                .domainPath(path)
-                .language(Language.KOTLIN)
-                .build();
-
-        DomainService domainService = new DomainService();
-        domainService.create(domainForm);
-
-        super.doOKAction();
-    }
 
 }
