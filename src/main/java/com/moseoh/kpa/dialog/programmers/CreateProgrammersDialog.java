@@ -3,6 +3,8 @@ package com.moseoh.kpa.dialog.programmers;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -56,8 +58,8 @@ public class CreateProgrammersDialog extends DialogWrapper {
                 .build();
 
         ProgrammersService programmersService = new ProgrammersService();
-        programmersService.create(programmersForm);
-
+        VirtualFile file = programmersService.create(programmersForm);
+        FileEditorManager.getInstance(project).openTextEditor(new OpenFileDescriptor(project,file), true);
         super.doOKAction();
     }
 

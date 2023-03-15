@@ -8,9 +8,9 @@ import com.moseoh.kpa.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ProgrammersService {
     private final Utils utils;
@@ -19,16 +19,19 @@ public class ProgrammersService {
         this.utils = Utils.getInstance();
     }
 
-    public void create(ProgrammersForm form) {
+    public VirtualFile create(ProgrammersForm form) {
         try {
             String packagePath = form.getPackagePath();
             VirtualFile folder = VfsUtil.createDirectories(packagePath);
             File tempFile = new File(".");
             String programmersContent = ProgrammersContent.KOTLIN.getContent();
+            AtomicReference<VirtualFile> created = new AtomicReference<>();
             utils.writeActions(() -> {
                 VirtualFile file = utils.createVirtualFile(folder, tempFile, "Solution.kt");
                 utils.writeContent(file, programmersContent, getFreemarkerValues(form));
+                created.set(file);
             });
+            return created.get();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +71,7 @@ public class ProgrammersService {
             sb.append("val").append(" ");
             sb.append(name[i]).append(" ");
             sb.append("=").append(" ");
-            sb.append(value[i].replaceAll("\\[", "{").replaceAll("\\]", "}"));
+            sb.append(value[i].replaceAll("\\[", "(").replaceAll("\\]", ")"));
             if (i == name.length - 2) break;
             sb.append("\n\t");
         }
